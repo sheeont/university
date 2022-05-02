@@ -1,0 +1,7 @@
+*.pyc
+__pycache__
+db.sqlite3
+.DS_Store
+sevita/main/static/main/fonts
+sevita/main/static/main/img
+sevita/sevita/.env

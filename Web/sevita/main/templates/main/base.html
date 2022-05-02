@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'main/css/style.css'%}" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="wrapper">
+        <div class="header__wrapper">
+            <div class="header__logo">
+                <a href="#" class="header__logo-link">
+                    <img src="{% static 'main/img/svg/logo.svg'%}" alt="SEVITA exclusive" class="header__logo-pic">
+                </a>
+            </div>
+
+            <nav class="header__nav">
+                <ul class="header__list">
+                    {% for item in header %}
+                    <li class="header__item">
+                        <a href="#" class="header__link">{{item}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <nav class="header__nav">
+                <p class="header__profile">
+                    <a href="#!" class="header__profle-link"><img src="{% static 'main/img/svg/profile.svg'%}"
+                                                                  alt="Профиль" class="header__profile-pic"></a>
+                </p>
+            </nav>
+        </div>
+    </div>
+</header>
+
+{% block content %}
+{% endblock content %}
+</body>
+</html>
