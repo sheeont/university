@@ -25,7 +25,7 @@
                 <ul class="header__list">
                     {% for item in header %}
                     <li class="header__item">
-                        <a href="#" class="header__link">{{item}}</a>
+                        <a href="{% url item.url_name %}" class="header__link">{{item.title}}</a>
                     </li>
                     {% endfor %}
                 </ul>
@@ -33,7 +33,7 @@
 
             <nav class="header__nav">
                 <p class="header__profile">
-                    <a href="#!" class="header__profle-link"><img src="{% static 'main/img/svg/profile.svg'%}"
+                    <a href="#!" class="header__profile-link"><img src="{% static 'main/img/svg/profile.svg'%}"
                                                                   alt="Профиль" class="header__profile-pic"></a>
                 </p>
             </nav>
