@@ -586,7 +586,7 @@ a:active {
 /* Header styles */
 
 .header {
-    background-color: #E5E5E5;
+    background-color: #E0E0E0;
     position: fixed;
     top: 0;
     left: 0;
@@ -692,7 +692,7 @@ h1 {
     padding-left: 50px;
     vertical-align: middle;
     display: inline-block;
-    width: 685px;
+    max-width: 735px;
     text-align: center;
     font-style: italic;
     font-size: 20px;
@@ -755,3 +755,37 @@ h2 {
     padding-top: 10px;
 }
 
+/* Footer styles */
+
+.footer {
+    background-color: #E0E0E0;
+}
+
+.footer__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.footer__logo {
+    max-width: 70px;
+    max-height: 70px;
+}
+
+.footer__vk {
+    max-width: 250px;
+    text-align: center;
+}
+
+.footer__vk-logo {
+    padding-top: 5px;
+    max-height: 30px;
+    max-width: 30px;
+}
+
+.footer__contacts {
+    text-align: center;
+}

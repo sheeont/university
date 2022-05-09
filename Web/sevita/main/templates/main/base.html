@@ -17,7 +17,7 @@
         <div class="header__wrapper">
             <div class="header__logo">
                 <a href="#" class="header__logo-link">
-                    <img src="{% static 'main/img/svg/logo.svg'%}" alt="SEVITA exclusive" class="header__logo-pic">
+                    <img src="{% static 'main/img/logo.png'%}" alt="SEVITA exclusive" class="header__logo-pic">
                 </a>
             </div>
 
@@ -34,7 +34,7 @@
             <nav class="header__nav">
                 <p class="header__profile">
                     <a href="#!" class="header__profile-link"><img src="{% static 'main/img/svg/profile.svg'%}"
-                                                                  alt="Профиль" class="header__profile-pic"></a>
+                                                                   alt="Профиль" class="header__profile-pic"></a>
                 </p>
             </nav>
         </div>
@@ -43,5 +43,28 @@
 
 {% block content %}
 {% endblock content %}
+
+{% block footer %}
+<section class="footer">
+    <div class="wrapper">
+        <div class="footer__wrapper">
+            <img src="{% static 'main/img/logo.png'%}" alt="SEVITA exclusive" class="footer__logo">
+            <div class="footer__vk">
+                <p class="footer__vk-desc">
+                    По всем вопросам Вы можете написать в группу в ВК: <br>
+                    <a href="https://vk.com/sevita_shop" class="vk-link" target="_blank">
+                        <img src="{% static 'main/img/vk-logo.png'%}" alt="Написать нам" class="footer__vk-logo">
+                    </a>
+                </p>
+            </div>
+            <div class="footer__contacts">
+                Контакты:<br><br>
+                +7 9** *** **-**<br>
+                your-email@email.ru
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock footer %}
 </body>
 </html>

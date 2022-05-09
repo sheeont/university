@@ -1,6 +1,6 @@
 $(function () {
     $('.accordion').accordion({
-        active: 0,
+        active: true,
         heightStyle: 'content',
         header: '> .accordion-item > .accordion-header'
     });
