@@ -113,5 +113,31 @@
             </div>
         </div>
     </section>
+
+    <!--   Каталог товаров   -->
+    <section class="catalog">
+        <div class="wrapper">
+            <div class="catalog__content">
+                <div class="catalog__header">
+                    <h1>Каталог товаров</h1>
+                    <img src="{% static 'main/img/svg/delimiter-line.svg'%}" alt="delimiter" class="delimiter-line">
+                </div>
+                <div class="catalog__wrapper">
+                    {% for p in products %}
+                    <div class="catalog__item">
+                        <a href="#!" class="catalog__item-link">
+                            <img src="{{p.photo.url}}" alt="{{p.title}}" class="catalog__item-preview">
+                        </a>
+                        <p class="catalog__item-title">{{p.title}}</p>
+                        <p class="catalog__item-price">от {{p.price}} руб.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="watch-more">
+                    <a href="{% url 'catalog' %}" class="catalog__watch-more">Посмотреть весь каталог...</a>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}

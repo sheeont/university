@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
+
+from main.models import Product
 
 header = [{'title': "О нас", 'url_name': 'about'},
           {'title': "Каталог", 'url_name': 'catalog'},
@@ -9,9 +11,11 @@ header = [{'title': "О нас", 'url_name': 'about'},
 
 
 def index(request):
+    products = Product.objects.all()
     context = {
         'title': 'SEVITA exclusive',
         'header': header,
+        'products': products
     }
 
     return render(request, 'main/index.html', context=context)
@@ -31,3 +35,7 @@ def payment(request):
 
 def contacts(request):
     return HttpResponse('contacts')
+
+
+def page_not_found(request, exception):
+    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
