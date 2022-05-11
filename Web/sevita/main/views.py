@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from main.models import Product
 
@@ -11,7 +11,13 @@ header = [{'title': "О нас", 'url_name': 'about'},
 
 
 def index(request):
-    products = Product.objects.all()
+    products_count = Product.objects.count()
+    # Получение последних 8 товаров для отображения на главной странице
+    if products_count >= 8:
+        products = Product.objects.filter(pk__gte=products_count - 8)
+    else:
+        products = Product.objects.all()
+
     context = {
         'title': 'SEVITA exclusive',
         'header': header,
@@ -35,6 +41,19 @@ def payment(request):
 
 def contacts(request):
     return HttpResponse('contacts')
+
+
+# Отображение страницы с товаром
+def show_product(request, prod_id):
+    prod = get_object_or_404(Product, pk=prod_id)
+
+    context = {
+        'prod': prod,
+        'header': header,
+        'title': prod.title,
+    }
+
+    return render(request, 'main/product.html', context=context)
 
 
 def page_not_found(request, exception):
