@@ -586,7 +586,7 @@ a:active {
 /* Header styles */
 
 .header {
-    background-color: #E0E0E0;
+    background-color: #FFE7F5;
     position: fixed;
     top: 0;
     left: 0;
@@ -764,7 +764,7 @@ h2 {
 /* Footer styles */
 
 .footer {
-    background-color: #E0E0E0;
+    background-color: #FFE7F5;
 }
 
 .footer__wrapper {
@@ -847,6 +847,7 @@ h2 {
     order: 1;
     flex-grow: 1;
     margin: 5px 0px;
+    text-decoration: none;
 }
 
 .catalog__item-price {
@@ -863,6 +864,7 @@ h2 {
     order: 2;
     flex-grow: 1;
     margin: 5px 0px;
+    text-decoration: none;
 }
 
 .watch-more {
@@ -881,3 +883,5 @@ catalog__watch-more:focus,
 catalog__watch-more:active {
     opacity: 0.75;
 }
+
+a { text-decoration: none; }

@@ -124,13 +124,13 @@
                 </div>
                 <div class="catalog__wrapper">
                     {% for p in products %}
-                    <div class="catalog__item">
-                        <a href="#!" class="catalog__item-link">
-                            <img src="{{p.photo.url}}" alt="{{p.title}}" class="catalog__item-preview">
-                        </a>
-                        <p class="catalog__item-title">{{p.title}}</p>
-                        <p class="catalog__item-price">от {{p.price}} руб.</p>
-                    </div>
+                        <div class="catalog__item">
+                            <a href="#!">
+                                <img src="{{p.preview.url}}" alt="{{p.title}}" class="catalog__item-preview">
+                            </a>
+                            <a href="#!" class="catalog__item-title"><p class="catalog__item-title">{{p.title}}</p></a>
+                            <a href="#!" class="catalog__item-price"><p class="catalog__item-price">от {{p.low_price}} руб.</p></a>
+                        </div>
                     {% endfor %}
                 </div>
                 <div class="watch-more">
