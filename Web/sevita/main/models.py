@@ -4,11 +4,12 @@ from django.urls import reverse
 
 class Product(models.Model):
     title = models.CharField(max_length=128, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=64, unique=True, db_index=True, verbose_name="URL")
     content = models.TextField(verbose_name='Описание')
 
-    preview = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Главное фото', null=True, blank=True)
-    on_hover = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Фото при наведении', null=True, blank=True)
-    additional = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Дополнительное фото', null=True, blank=True)
+    preview = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Главное фото')
+    on_hover = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Фото при наведении')
+    additional = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Дополнительное фото', blank=True)
 
     low_price = models.CharField(max_length=6, default='', verbose_name='Цена за 2,5 мл')
     medium_price = models.CharField(max_length=6, default='', verbose_name='Цена за 5 мл')
