@@ -5,7 +5,7 @@ from .forms import *
 from .models import *
 from .telegram import send_contacts
 
-header = [{'title': "О нас", 'url_name': 'about'},
+header = [{'title': "О нас", 'url_name': 'home'},
           {'title': "Каталог", 'url_name': 'catalog'},
           {'title': "Оплата", 'url_name': 'payment'},
           {'title': "Контакты", 'url_name': 'contacts'}
@@ -70,6 +70,7 @@ def show_product(request, prod_slug):
         'prod': prod,
         'header': header,
         'title': prod.title,
+        'page': 'product',
         'form': form
     }
 

@@ -24,13 +24,17 @@
             <nav class="header__nav">
                 <ul class="header__list">
                     {% for item in header %}
-                        {% if item.title == "О нас" %}
+                        {% if page == 'home' and item.title == 'О нас' %}
                             <li class="header__item">
                                 <a href="#about" class="header__link">О нас</a>
                             </li>
-                        {% else %}
+                        {% elif not forloop.last %}
                             <li class="header__item">
                                 <a href="{% url item.url_name %}" class="header__link">{{item.title}}</a>
+                            </li>
+                        {% else %}
+                            <li class="header__item">
+                                <a href="#contacts" class="header__link">Контакты</a>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -50,7 +54,9 @@
 {% block content %}
 {% endblock content %}
 
+
 {% block footer %}
+<p><a name="contacts"></a></p>
 <section class="footer">
     <div class="wrapper">
         <div class="footer__wrapper">
