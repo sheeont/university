@@ -16,7 +16,7 @@
     <div class="wrapper">
         <div class="header__wrapper">
             <div class="header__logo">
-                <a href="#" class="header__logo-link">
+                <a href="/" class="header__logo-link">
                     <img src="{% static 'main/img/logo.png'%}" alt="SEVITA exclusive" class="header__logo-pic">
                 </a>
             </div>
@@ -24,9 +24,15 @@
             <nav class="header__nav">
                 <ul class="header__list">
                     {% for item in header %}
-                    <li class="header__item">
-                        <a href="{% url item.url_name %}" class="header__link">{{item.title}}</a>
-                    </li>
+                        {% if item.title == "О нас" %}
+                            <li class="header__item">
+                                <a href="#about" class="header__link">О нас</a>
+                            </li>
+                        {% else %}
+                            <li class="header__item">
+                                <a href="{% url item.url_name %}" class="header__link">{{item.title}}</a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </nav>

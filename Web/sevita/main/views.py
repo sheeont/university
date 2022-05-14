@@ -21,7 +21,8 @@ def index(request):
     context = {
         'title': 'SEVITA exclusive',
         'header': header,
-        'products': products
+        'products': products,
+        'page': 'home'
     }
 
     return render(request, 'main/index.html', context=context)

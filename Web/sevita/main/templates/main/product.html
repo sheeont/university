@@ -1,0 +1,60 @@
+{%  extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="product">
+    <div class="wrapper">
+        <!--  Header  -->
+        <div class="about__header">
+            <a href="" class="about__pic">
+                <img src="{% static 'main/img/svg/about-header.svg'%}" alt="sevita" class="about__header-pic">
+            </a>
+        </div>
+    </div>
+
+
+    <!--  Product  -->
+    <div class="wrapper">
+        <div class="product__wrapper">
+            <div class="product__photos">
+                {% if prod.preview %}
+                    <img src="{{prod.preview.url}}" alt="{{prod.title}}" class="product__preview" align="left">
+                {% endif %}
+            </div>
+            <div class="product_description">
+                <p class="product__title">{{prod.title}}</p>
+                <p class="product__volume">Выберите объём:</p>
+                <div class="product__buttons">
+                    <script>
+                        function lowVolume() {
+                            document.getElementById('price').innerHTML = 'Цена: {{prod.low_price}} руб.';
+                            document.getElementById('2.5ml').disabled = true;
+                            document.getElementById('5ml').disabled = false;
+                            document.getElementById('10ml').disabled = false;
+                        }
+                        function medVolume() {
+                            document.getElementById('price').innerHTML = 'Цена: {{prod.medium_price}} руб.';
+                            document.getElementById('2.5ml').disabled = false;
+                            document.getElementById('5ml').disabled = true;
+                            document.getElementById('10ml').disabled = false;
+                        }
+                        function highVolume() {
+                            document.getElementById('price').innerHTML = 'Цена: {{prod.high_price}} руб.';
+                            document.getElementById('2.5ml').disabled = false;
+                            document.getElementById('5ml').disabled = false;
+                            document.getElementById('10ml').disabled = true;
+                        }
+                    </script>
+                    <button id="2.5ml" class="btn" onclick="lowVolume()" disabled>2,5 мл</button>
+                    <button id="5ml" class="btn" onclick="medVolume()">5 мл</button>
+                    <button id="10ml" class="btn" onclick="highVolume()">10 мл</button>
+                </div>
+                <p class="prod__price" id="price">Цена: {{prod.low_price}} руб.</p>
+                <p class="prod__desc">{{prod.content}}</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
