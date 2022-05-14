@@ -1,7 +1,9 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
-from main.models import Product
+from .forms import *
+from .models import *
+from .telegram import send_contacts
 
 header = [{'title': "О нас", 'url_name': 'about'},
           {'title': "Каталог", 'url_name': 'catalog'},
@@ -45,13 +47,30 @@ def contacts(request):
 
 
 # Отображение страницы с товаром
-def show_product(request, prod_id):
-    prod = get_object_or_404(Product, pk=prod_id)
+def show_product(request, prod_slug):
+    prod = get_object_or_404(Product, slug=prod_slug)
+    if request.method == 'POST':
+        form = FeedBack(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            message_to_send = f"Товар: {data['product']}\nОбъём флакончика: {CHOICES[int(data['volume'])][1]}\n"
+
+            if data['description']:
+                message_to_send += f"Сообщение от отправителя: {data['description']}"
+            try:
+                send_contacts(message_to_send)
+                return redirect('home')
+            except:
+                form.add_error(None, "Ошибка отправки формы. Попробуйте позднее.")
+    else:
+        form = FeedBack()
 
     context = {
         'prod': prod,
         'header': header,
         'title': prod.title,
+        'form': form
     }
 
     return render(request, 'main/product.html', context=context)

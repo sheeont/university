@@ -900,6 +900,7 @@ a { text-decoration: none; }
 
 .product_description {
     padding-left: 50px;
+    padding-bottom 10px;
 
     display: flex;
     flex-direction: column;
@@ -964,8 +965,6 @@ a { text-decoration: none; }
 	touch-action: manipulation;
 	vertical-align: top;
 	transition: box-shadow 0.2s;
-
-
 }
 
 .btn:focus-visible {
@@ -987,4 +986,32 @@ a { text-decoration: none; }
 	border-color: #eee;
 	color: #444;
 	cursor: not-allowed;
+}
+
+/* Form styles */
+
+.form__wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form_label {
+    padding-left: 10px;
+}
+
+.product__fbheader {
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 39px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.form_answer {
+    padding: 10px;
+}
+
+.form_btn {
+    text-align: center;
 }
