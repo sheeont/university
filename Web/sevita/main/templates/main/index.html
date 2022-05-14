@@ -1,5 +1,6 @@
 {%  extends 'main/base.html' %}
 {% load static %}
+{% load main_tags %}
 
 {% block content %}
 <!--    Основное тело    -->
@@ -116,6 +117,8 @@
     </section>
 
     <!--   Каталог товаров   -->
+    {% get_products as products %}
+    <!--    {{ products|cut:8 }}-->
     <section class="catalog">
         <div class="wrapper">
             <div class="catalog__content">
@@ -125,21 +128,21 @@
                 </div>
                 <div class="catalog__wrapper">
                     {% for p in products %}
-                        <div class="catalog__item">
-                            <a href="{{p.get_absolute_url}}">
-                                <img src="{{p.preview.url}}" alt="{{p.title}}" class="catalog__item-preview">
-                            </a>
-                            <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
-                                    class="catalog__item-title">{{p.title}}</p></a>
-                            <a href="{{p.get_absolute_url}}" class="catalog__item-price"><p
-                                    class="catalog__item-price">от {{p.low_price}} руб.</p></a>
-                        </div>
+                    <div class="catalog__item">
+                        <a href="{{p.get_absolute_url}}">
+                            <img src="{{p.preview.url}}" alt="{{p.title}}" class="catalog__item-preview">
+                        </a>
+                        <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
+                                class="catalog__item-title">{{p.title}}</p></a>
+                        <a href="{{p.get_absolute_url}}" class="catalog__item-price"><p
+                                class="catalog__item-price">от {{p.low_price}} руб.</p></a>
+                    </div>
                     {% endfor %}
                 </div>
-                <div class="watch-more">
-                    <a href="{% url 'catalog' %}" class="catalog__watch-more">Посмотреть весь каталог...</a>
-                </div>
             </div>
+        </div>
+        <div class="watch-more">
+            <a href="{% url 'catalog' %}" class="catalog__watch-more">Посмотреть весь каталог...</a>
         </div>
     </section>
 </main>

@@ -13,17 +13,9 @@ header = [{'title': "О нас", 'url_name': 'home'},
 
 
 def index(request):
-    products_count = Product.objects.count()
-    # Получение последних 8 товаров для отображения на главной странице
-    if products_count >= 8:
-        products = Product.objects.filter(pk__gte=products_count - 8)
-    else:
-        products = Product.objects.all()
-
     context = {
         'title': 'SEVITA exclusive',
         'header': header,
-        'products': products,
         'page': 'home'
     }
 
@@ -35,7 +27,16 @@ def about(request):
 
 
 def catalog(request):
-    return HttpResponse('catalog')
+    products = Product.objects.all()
+
+    context = {
+        'title': 'Каталог',
+        'header': header,
+        'products': products,
+        'page': 'catalog'
+    }
+
+    return render(request, 'main/catalog.html', context=context)
 
 
 def payment(request):
