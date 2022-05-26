@@ -25,34 +25,11 @@
             <div class="product_description">
                 <p class="product__title">{{prod.title}}</p>
                 <p class="product__volume">Выберите объём:</p>
+                <script src="{% static 'main/js/scripts.js'%}"></script>
                 <div class="product__buttons">
-                    <script>
-                        function lowVolume() {
-                            document.getElementById('price').innerHTML = 'Цена: {{prod.low_price}} руб.';
-                            document.getElementById('2.5ml').disabled = true;
-                            document.getElementById('5ml').disabled = false;
-                            document.getElementById('10ml').disabled = false;
-                        }
-                        function medVolume() {
-                            document.getElementById('price').innerHTML = 'Цена: {{prod.medium_price}} руб.';
-                            document.getElementById('2.5ml').disabled = false;
-                            document.getElementById('5ml').disabled = true;
-                            document.getElementById('10ml').disabled = false;
-                        }
-                        function highVolume() {
-                            document.getElementById('price').innerHTML = 'Цена: {{prod.high_price}} руб.';
-                            document.getElementById('2.5ml').disabled = false;
-                            document.getElementById('5ml').disabled = false;
-                            document.getElementById('10ml').disabled = true;
-                        }
-
-
-
-
-                    </script>
-                    <button id="2.5ml" class="btn" onclick="lowVolume()" disabled>2,5 мл</button>
-                    <button id="5ml" class="btn" onclick="medVolume()">5 мл</button>
-                    <button id="10ml" class="btn" onclick="highVolume()">10 мл</button>
+                    <button id="2.5ml" class="btn" onclick="setPrice({{prod.low_price}}, '2.5ml')" disabled>2,5 мл</button>
+                    <button id="5ml" class="btn" onclick="setPrice({{prod.medium_price}}, '5ml')">5 мл</button>
+                    <button id="10ml" class="btn" onclick="setPrice({{prod.high_price}}, '10ml')">10 мл</button>
                 </div>
                 <p class="prod__price" id="price">Цена: {{prod.low_price}} руб.</p>
                 <p class="prod__desc">{{prod.content}}</p>

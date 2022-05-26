@@ -652,6 +652,10 @@ header__profile-pic:active {
 
 /* About styles */
 
+.about__header {
+    padding-bottom: 50px;
+}
+
 .about__header-pic {
     padding-top: 85px;
     display: block;
@@ -661,7 +665,6 @@ header__profile-pic:active {
 }
 
 .about__content {
-    padding-top: 65px;
     padding-bottom: 50px;
 }
 
@@ -1057,4 +1060,11 @@ a { text-decoration: none; }
 
 .new-margin_btn {
     margin: 0 0 15px 0;
+}
+
+.register {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    margin: 0 auto;
+    height: 650px;
 }

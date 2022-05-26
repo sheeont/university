@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 from .models import *
 
 CHOICES = (
@@ -20,3 +22,18 @@ class FeedBack(forms.Form):
         widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Поле необязательно', 'class': 'form__text'}),
         label="Оставьте свои пожелания",
         required=False)
+
+
+class UserRegistrationForm(forms.ModelForm):
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Пароли не совпадают!')
+        return cd['password2']

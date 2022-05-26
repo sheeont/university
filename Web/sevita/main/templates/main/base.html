@@ -43,8 +43,9 @@
 
             <nav class="header__nav">
                 <p class="header__profile">
-                    <a href="#!" class="header__profile-link"><img src="{% static 'main/img/svg/profile.svg'%}"
-                                                                   alt="Профиль" class="header__profile-pic"></a>
+                    <a href="{% url 'register' %}" class="header__profile-link">
+                        <img src="{% static 'main/img/svg/profile.svg'%}" alt="Профиль" class="header__profile-pic">
+                    </a>
                 </p>
             </nav>
         </div>
