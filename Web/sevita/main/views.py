@@ -1,8 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import ListView, DetailView
 
 from .forms import *
 from .models import *
@@ -15,39 +13,48 @@ header = [{'title': "О нас", 'url_name': 'home'},
           ]
 
 
-def index(request):
-    context = {
-        'title': 'SEVITA exclusive',
-        'header': header,
-        'page': 'home'
-    }
+class MainHome(ListView):
+    model = Product
+    template_name = "main/index.html"
+    context_object_name = 'products'
+    extra_context = {'title': 'SEVITA exclusive'}
 
-    return render(request, 'main/index.html', context=context)
+    def get_context_data(self, objects_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['header'] = header
+        context['page'] = 'home'
+        return context
+
+    """
+    Функция выводит только те объекты из базы данных, которые отмечены, как видимые и, так как это неполный каталог
+    (каталог главной страницы), то устанавливает ограничение на количество выводимых объектов (count).
+    """
+
+    def get_queryset(self):
+        count = 8
+        return Product.objects.filter(is_visible=True, pk__gte=Product.objects.count() - count + 1)
 
 
-def about(request):
-    return HttpResponse('about')
+class MainCatalog(ListView):
+    model = Product
+    template_name = "main/catalog.html"
+    context_object_name = 'products'
 
+    # extra_context = {'title': 'Каталог'}
 
-def catalog(request):
-    products = Product.objects.all()
+    def get_context_data(self, objects_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Каталог'
+        context['header'] = header
+        context['page'] = 'catalog'
+        return context
 
-    context = {
-        'title': 'Каталог',
-        'header': header,
-        'products': products,
-        'page': 'catalog'
-    }
-
-    return render(request, 'main/catalog.html', context=context)
+    def get_queryset(self):
+        return Product.objects.filter(is_visible=True)
 
 
 def payment(request):
     return HttpResponse('payment')
-
-
-def contacts(request):
-    return HttpResponse('contacts')
 
 
 # Отображение страницы с товаром
