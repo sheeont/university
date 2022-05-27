@@ -23,8 +23,15 @@
                     </a>
                     <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
                             class="catalog__item-title">{{p.title}}</p></a>
-                    <a href="{{p.get_absolute_url}}" class="catalog__item-price"><p
-                            class="catalog__item-price">от {{p.low_price}} руб.</p></a>
+                    <a href="{{p.get_absolute_url}}" class="catalog__item-price">
+                        {% if p.low_price != "-" %}
+                        <p class="catalog__item-price">от {{p.low_price}} руб.</p>
+                        {% elif p.medium_price != "-" %}
+                        <p class="catalog__item-price">от {{p.medium_price}} руб.</p>
+                        {% else %}
+                        <p class="catalog__item-price">от {{p.high_price}} руб.</p>
+                        {% endif %}
+                    </a>
                     <input class="catalog__fav" type="image" src="{% static 'main/img/fav.png' %}" alt="В избранное">
                 </div>
                 {% endfor %}

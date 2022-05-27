@@ -1,30 +1,22 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView
 
 from .forms import *
 from .models import *
+from .utils import *
 from .telegram import send_contacts
 
-header = [{'title': "О нас", 'url_name': 'home'},
-          {'title': "Каталог", 'url_name': 'catalog'},
-          {'title': "Оплата", 'url_name': 'payment'},
-          {'title': "Контакты", 'url_name': 'contacts'}
-          ]
 
-
-class MainHome(ListView):
+class MainHome(DataMixin, ListView):
     model = Product
     template_name = "main/index.html"
     context_object_name = 'products'
-    extra_context = {'title': 'SEVITA exclusive'}
 
     def get_context_data(self, objects_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['header'] = header
-        context['page'] = 'home'
-        context['user_form'] = self.register(self.request)
-        return context
+        c_def = self.get_user_context(title="SEVITA exclusive", page="home")
+
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
         """
@@ -34,31 +26,18 @@ class MainHome(ListView):
         count = 8
         return Product.objects.filter(is_visible=True, pk__gte=Product.objects.count() - count + 1)
 
-    def register(self, request):
-        if request.method == 'POST':
-            user_form = UserRegistrationForm(request.POST)
-            if user_form.is_valid():
-                new_user = user_form.save(commit=False)
-                new_user.set_password(user_form.cleaned_data['password'])
 
-                new_user.save()
-                return redirect('home')
-        else:
-            user_form = UserRegistrationForm()
-        return user_form
-
-
-class MainCatalog(ListView):
+class MainCatalog(DataMixin, ListView):
+    paginate_by = 20
     model = Product
     template_name = "main/catalog.html"
     context_object_name = 'products'
 
     def get_context_data(self, objects_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Каталог'
-        context['header'] = header
-        context['page'] = 'catalog'
-        return context
+        c_def = self.get_user_context(title="Каталог", page="catalog")
+
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
         return Product.objects.filter(is_visible=True)
@@ -68,7 +47,7 @@ def payment(request):
     return HttpResponse('payment')
 
 
-class ShowProduct(DetailView):
+class ShowProduct(DataMixin, DetailView):
     model = Product
     template_name = 'main/product.html'
     slug_url_kwarg = 'prod_slug'
@@ -76,11 +55,9 @@ class ShowProduct(DetailView):
 
     def get_context_data(self, objects_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = context['prod']
-        context['header'] = header
-        context['page'] = 'product'
-        context['form'] = self.get_form(self.request)
-        return context
+        c_def = self.get_user_context(title=context['prod'], page="product", form=self.get_form(self.request))
+
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_form(self, request):
         if request.method == 'POST':
