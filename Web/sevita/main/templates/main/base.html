@@ -24,26 +24,27 @@
             <nav class="header__nav">
                 <ul class="header__list">
                     {% for item in header %}
-                        {% if page == 'home' and item.title == 'О нас' %}
-                            <li class="header__item">
-                                <a href="#about" class="header__link">О нас</a>
-                            </li>
-                        {% elif not forloop.last %}
-                            <li class="header__item">
-                                <a href="{% url item.url_name %}" class="header__link">{{item.title}}</a>
-                            </li>
-                        {% else %}
-                            <li class="header__item">
-                                <a href="#contacts" class="header__link">Контакты</a>
-                            </li>
-                        {% endif %}
+                    {% if page == 'home' and item.title == 'О нас' %}
+                    <li class="header__item">
+                        <a href="#about" class="header__link">О нас</a>
+                    </li>
+                    {% elif not forloop.last %}
+                    <li class="header__item">
+                        <a href="{% url item.url_name %}" class="header__link">{{item.title}}</a>
+                    </li>
+                    {% else %}
+                    <li class="header__item">
+                        <a href="#contacts" class="header__link">Контакты</a>
+                    </li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </nav>
 
             <nav class="header__nav">
                 <p class="header__profile">
-                    <a href="{% url 'register' %}" class="header__profile-link">
+
+                    <a href="#popup" class="header__profile-link">
                         <img src="{% static 'main/img/svg/profile.svg'%}" alt="Профиль" class="header__profile-pic">
                     </a>
                 </p>
@@ -81,5 +82,25 @@
     </div>
 </section>
 {% endblock footer %}
+
+<!--   Всплывающее окно авторизации/регистрации   -->
+<div id="popup" class="popup">
+    <a href="#header" class="popup__area"></a>
+    <div class="popup__body">
+        <div class="popup__content">
+            <a href="#header" class="popup__close">X</a>
+            <h1>Авторизация</h1>
+            <div class="wrapper">
+                <div class="popup__form">
+                    <form action="." method="post">
+                        {{ user_form.as_p }}
+                        {% csrf_token %}
+                        <p><input type="submit" value="Создать аккаунт"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
