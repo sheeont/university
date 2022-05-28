@@ -28,7 +28,7 @@ class MainHome(DataMixin, ListView):
 
 
 class MainCatalog(DataMixin, ListView):
-    paginate_by = 20
+    paginate_by = 12
     model = Product
     template_name = "main/catalog.html"
     context_object_name = 'products'
