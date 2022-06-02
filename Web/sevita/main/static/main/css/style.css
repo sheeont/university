@@ -933,7 +933,6 @@ a { text-decoration: none; }
     font-style: italic;
     font-size: 32px;
     line-height: 39px;
-    text-align: center;
     padding-bottom: 10px;
 }
 
@@ -1178,4 +1177,56 @@ a { text-decoration: none; }
 }
 .list-pages .page-num-selected:hover {
 	box-shadow: none;
+}
+
+/* Radio-buttons on authentication and registration forms */
+
+.tabs>input[type="radio"] {
+    display: none;
+}
+
+.tabs>input[type="radio"]:checked+label {
+    background-color: #bdbdbd;
+}
+
+.tabs>div {
+    /* скрыть контент по умолчанию */
+    display: none;
+    border: 1px solid #eee;
+    padding: 20px 30px;
+    border-radius: 4px;
+}
+
+/* отобразить контент, связанный с выбранной радиокнопкой (input type="radio") */
+#tab-btn-1:checked~#content-1,
+#tab-btn-2:checked~#content-2,
+#tab-btn-3:checked~#content-3 {
+    display: block;
+}
+
+.tabs>label {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: #eee;
+    border: 1px solid transparent;
+    padding: 4px 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    margin-right: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.tabs>label:first-of-type {
+    margin-left: 0;
+}
+
+.tabs-button {
+    padding-top: 10px;
+    text-align: center;
 }

@@ -1,5 +1,6 @@
-from django.http import HttpResponse, HttpResponseNotFound
-from django.views.generic import ListView, DetailView
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import *
 from .models import *
@@ -83,3 +84,29 @@ class ShowProduct(DataMixin, DetailView):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = UserRegistrationForm
+    template_name = 'main/register.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Регистрация", page="register", form=self.reg(self.request))
+
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def reg(self, request):
+        if request.method == 'POST':
+            user_form = UserRegistrationForm(request.POST)
+            if user_form.is_valid():
+                new_user = user_form.save(commit=False)
+                new_user.set_password(user_form.cleaned_data['password'])
+
+                new_user.save()
+                return redirect('home')
+        else:
+            user_form = UserRegistrationForm()
+
+        return user_form

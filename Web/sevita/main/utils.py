@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
 
 from .forms import UserRegistrationForm
@@ -9,24 +10,12 @@ header = [{'title': "О нас", 'url_name': 'home'},
           ]
 
 
-def reg(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
-
-            new_user.save()
-            return redirect('home')
-    else:
-        user_form = UserRegistrationForm()
-    return user_form
-
-
 class DataMixin:
     def get_user_context(self, **kwargs):
         context = kwargs
         context['header'] = header
-        context['user_form'] = reg(self.request)
+        # context['user_form'] = reg(self.request)
+        context['login_form'] = AuthenticationForm()
+        context['registration_form'] = UserRegistrationForm()
 
         return context
