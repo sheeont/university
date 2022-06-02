@@ -32,7 +32,7 @@
                     <button id="10ml" class="btn" onclick="setPrice({{prod.high_price}}, '10ml')">10 мл</button>
                 </div>
                 <p class="prod__price" id="price">Цена: {{prod.low_price}} руб.</p>
-                <p class="prod__desc">{{prod.content}}</p>
+                <p class="prod__desc">{{prod.content|linebreaks}}</p>
 
 
             </div>
