@@ -1232,11 +1232,32 @@ a { text-decoration: none; }
 .add__block {
     position: relative;
     bottom: 98%;
-    left: 38%;
+    left: 78%;
 }
 
-.remove__block {
-    position: relative;
-    bottom: 109%;
-    left: 38%;
+.add-to-favorites {
+    cursor: pointer;
+    position:absolute;
+    width:40px;
+    height:40px;
+    background: url('../img/fav.png');
+    background-size: 40px 40px;
+}
+
+.add-to-favorites:hover {
+    opacity: 0.75;
+}
+
+.add-to-favorites.added {
+    position:absolute;
+    width:40px;
+    height:40px;
+    background: url('../img/infav.png');
+    background-size: 40px 40px;
+}
+
+.favorite-img {
+    max-width: 40px;
+    max-height: 40px;
+    z-index: 3;
 }

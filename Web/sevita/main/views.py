@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -112,7 +112,12 @@ class RegisterUser(DataMixin, CreateView):
         return user_form
 
 
-def add_to_favorites(request, id):
+# Функции для AJAX
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+def add_to_favorites(request):
     if request.method == 'POST':
         if not request.session.get('favorites'):
             request.session['favorites'] = list()
@@ -121,27 +126,36 @@ def add_to_favorites(request, id):
 
         # Проверяем, находится ли товар в списке словарей избранных товаров
         item_exists = next((item for item in request.session['favorites'] if item['type'] == request.POST.get('type')
-                            and item['id'] == id), False)
+                            and item['id'] == request.POST.get('id')), False)
 
         # Получаем данные из POST-запроса
         add_data = {
             'type': request.POST.get('type'),
-            'id': id,
+            'id': request.POST.get('id'),
         }
 
         if not item_exists:
             request.session['favorites'].append(add_data)
             request.session.modified = True
 
+    # Для AJAX запросов
+    if is_ajax(request):
+        data = {
+            'type': request.POST.get('type'),
+            'id': request.POST.get('id'),
+        }
+        request.session.modified = True
+        return JsonResponse(data)
+
     return redirect(request.POST.get('url_from'))
 
 
-def remove_from_favorites(request, id):
+def remove_from_favorites(request):
     if request.method == 'POST':
 
         # Удаление товара из избранных
         for item in request.session['favorites']:
-            if item['id'] == id and item['type'] == request.POST.get('type'):
+            if item['id'] == request.POST.get('id') and item['type'] == request.POST.get('type'):
                 item.clear()
 
         # После удаления товара, убираем из списка пустой словарь
@@ -154,4 +168,17 @@ def remove_from_favorites(request, id):
 
         request.session.modified = True
 
+    # Для AJAX запросов
+    if is_ajax(request):
+        data = {
+            'type': request.POST.get('type'),
+            'id': request.POST.get('id'),
+        }
+        request.session.modified = True
+        return JsonResponse(data)
+
     return redirect(request.POST.get('url_from'))
+
+
+def favorites_api(request):
+    return JsonResponse(request.session.get('favorites'), safe=False)

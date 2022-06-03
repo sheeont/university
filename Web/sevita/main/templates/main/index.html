@@ -142,33 +142,10 @@
                         {% endif %}
                     </a>
 
-                    <!--   Добавление товара в избранное   -->
-                    <div class="add__block">
-                        <form action="{% url 'add' id=p.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="type" value="{{ type }}">
-                            <input type="hidden" name="url_from" value="{{ request.path }}">
-                            <input class="catalog__fav" type="image" src="{% static 'main/img/fav.png' %}"
-                                   alt="В избранное">
-                        </form>
-                    </div>
+                    <!--   Подключаем ajax для кнопки 'Избранное'   -->
+                    <script src="{% static 'main/js/ajax.js'%}"></script>
+                    {% include 'main/add_to_favorites.html' with type="product" id=p.id %}
 
-                    <!--   Удаление товара из избранного   -->
-                    {% if request.session.favorites %}
-                    {% for item in request.session.favorites %}
-                    {% if item.id == p.id|stringformat:"i" %}
-                    <div class="remove__block">
-                        <form action="{% url 'remove' id=p.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="type" value="{{ type }}">
-                            <input type="hidden" name="url_from" value="{{ request.path }}">
-                            <input class="catalog__fav" type="image" src="{% static 'main/img/infav.png' %}"
-                                   alt="Убрать из избранного">
-                        </form>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
                 </div>
                 {% endfor %}
                 </div>
