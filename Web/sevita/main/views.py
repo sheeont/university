@@ -110,3 +110,48 @@ class RegisterUser(DataMixin, CreateView):
             user_form = UserRegistrationForm()
 
         return user_form
+
+
+def add_to_favorites(request, id):
+    if request.method == 'POST':
+        if not request.session.get('favorites'):
+            request.session['favorites'] = list()
+        else:
+            request.session['favorites'] = list(request.session['favorites'])
+
+        # Проверяем, находится ли товар в списке словарей избранных товаров
+        item_exists = next((item for item in request.session['favorites'] if item['type'] == request.POST.get('type')
+                            and item['id'] == id), False)
+
+        # Получаем данные из POST-запроса
+        add_data = {
+            'type': request.POST.get('type'),
+            'id': id,
+        }
+
+        if not item_exists:
+            request.session['favorites'].append(add_data)
+            request.session.modified = True
+
+    return redirect(request.POST.get('url_from'))
+
+
+def remove_from_favorites(request, id):
+    if request.method == 'POST':
+
+        # Удаление товара из избранных
+        for item in request.session['favorites']:
+            if item['id'] == id and item['type'] == request.POST.get('type'):
+                item.clear()
+
+        # После удаления товара, убираем из списка пустой словарь
+        while {} in request.session['favorites']:
+            request.session['favorites'].remove({})
+
+        # Удаляем список со словарями избранных товаров, если этот список пуст
+        if not request.session['favorites']:
+            del request.session['favorites']
+
+        request.session.modified = True
+
+    return redirect(request.POST.get('url_from'))

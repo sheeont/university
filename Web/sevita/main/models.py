@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -7,9 +8,9 @@ class Product(models.Model):
     slug = models.SlugField(max_length=64, unique=True, db_index=True, verbose_name="URL")
     content = models.TextField(verbose_name='Описание')
 
-    preview = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Главное фото')
-    on_hover = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Фото при наведении')
-    additional = models.ImageField(upload_to=f"images/%Y-%m-%d/", verbose_name='Дополнительное фото', blank=True)
+    preview = models.ImageField(upload_to=f"images/preview/", verbose_name='Главное фото')
+    on_hover = models.ImageField(upload_to=f"images/on_hover/", verbose_name='Фото при наведении')
+    additional = models.ImageField(upload_to=f"images/additional/", verbose_name='Дополнительное фото', blank=True)
 
     low_price = models.CharField(max_length=32, default='', verbose_name='Цена за 2,5 мл')
     medium_price = models.CharField(max_length=32, default='', verbose_name='Цена за 5 мл')

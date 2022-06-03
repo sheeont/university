@@ -836,9 +836,7 @@ h2 {
 
 .catalog__fav {
     max-width: 40px;
-    position: relative;
-    bottom: 98%;
-    left: 38%;
+    z-index: 4;
 }
 
 .catalog__item-title {
@@ -1229,4 +1227,16 @@ a { text-decoration: none; }
 .tabs-button {
     padding-top: 10px;
     text-align: center;
+}
+
+.add__block {
+    position: relative;
+    bottom: 98%;
+    left: 38%;
+}
+
+.remove__block {
+    position: relative;
+    bottom: 109%;
+    left: 38%;
 }
