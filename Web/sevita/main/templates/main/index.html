@@ -126,25 +126,51 @@
                 </div>
                 <div class="catalog__wrapper">
                     {% for p in products %}
-                    <div class="catalog__item">
-                        <a href="{{p.get_absolute_url}}">
-                            <img src="{{p.preview.url}}" alt="{{p.title}}" class="catalog__item-preview">
-                        </a>
-                        <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
-                                class="catalog__item-title">{{p.title}}</p></a>
-                        <a href="{{p.get_absolute_url}}" class="catalog__item-price">
-                            {% if p.low_price != "-" %}
-                            <p class="catalog__item-price">от {{p.low_price}} руб.</p>
-                            {% elif p.medium_price != "-" %}
-                            <p class="catalog__item-price">от {{p.medium_price}} руб.</p>
-                            {% else %}
-                            <p class="catalog__item-price">от {{p.high_price}} руб.</p>
-                            {% endif %}
-                        </a>
-                        <input class="catalog__fav" type="image" src="{% static 'main/img/fav.png' %}"
-                               alt="В избранное">
+                <div class="catalog__item">
+                    <a href="{{p.get_absolute_url}}">
+                        <img src="{{p.preview.url}}" alt="{{p.title}}" class="catalog__item-preview">
+                    </a>
+                    <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
+                            class="catalog__item-title">{{p.title}}</p></a>
+                    <a href="{{p.get_absolute_url}}" class="catalog__item-price">
+                        {% if p.low_price != "-" %}
+                        <p class="catalog__item-price">от {{p.low_price}} руб.</p>
+                        {% elif p.medium_price != "-" %}
+                        <p class="catalog__item-price">от {{p.medium_price}} руб.</p>
+                        {% else %}
+                        <p class="catalog__item-price">от {{p.high_price}} руб.</p>
+                        {% endif %}
+                    </a>
+
+                    <!--   Добавление товара в избранное   -->
+                    <div class="add__block">
+                        <form action="{% url 'add' id=p.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="type" value="{{ type }}">
+                            <input type="hidden" name="url_from" value="{{ request.path }}">
+                            <input class="catalog__fav" type="image" src="{% static 'main/img/fav.png' %}"
+                                   alt="В избранное">
+                        </form>
                     </div>
+
+                    <!--   Удаление товара из избранного   -->
+                    {% if request.session.favorites %}
+                    {% for item in request.session.favorites %}
+                    {% if item.id == p.id|stringformat:"i" %}
+                    <div class="remove__block">
+                        <form action="{% url 'remove' id=p.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="type" value="{{ type }}">
+                            <input type="hidden" name="url_from" value="{{ request.path }}">
+                            <input class="catalog__fav" type="image" src="{% static 'main/img/infav.png' %}"
+                                   alt="Убрать из избранного">
+                        </form>
+                    </div>
+                    {% endif %}
                     {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
                 </div>
             </div>
         </div>
