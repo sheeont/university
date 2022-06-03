@@ -902,17 +902,25 @@ a { text-decoration: none; }
 /* Product styles */
 
 .product__preview {
-    max-width: 350px;
+    max-width: 0px;
+    max-height: 466px;
 }
 
 .product__photos {
+    min-width: 10%;
+    max-width: 40%;
+    height: 500px;
+    max-height: 500px;
+    min-height: 10px;
+    display: inline-block;
     flex: none;
     order: 0;
     flex-grow: 0;
+    vertical-align: top
 }
 
 .product_description {
-    padding-left: 50px;
+    padding-left: 30px;
     padding-bottom 10px;
 
     display: flex;
@@ -924,6 +932,9 @@ a { text-decoration: none; }
     flex: none;
     order: 1;
     flex-grow: 0;
+    display: inline-block;
+    min-width: 10%;
+    max-width: 55%;
 }
 
 .product__title {
@@ -1017,6 +1028,7 @@ a { text-decoration: none; }
     font-size: 20px;
     line-height: 39px;
     padding-bottom: 10px;
+    padding-top: 10px;
     text-align: center;
 }
 
@@ -1175,6 +1187,30 @@ a { text-decoration: none; }
 }
 .list-pages .page-num-selected:hover {
 	box-shadow: none;
+}
+
+.arrow {
+    max-width: 10%;
+    min-width: 4%;
+    min-height: 1%;
+    height: 40%;
+    width: 10%;
+    cursor: pointer;
+}
+
+.active {
+    min-width:10%;
+    max-width: 80%;
+}
+
+.active img{
+        transition: opacity 0.3s ease-in 0.4s;
+}
+
+.limit {
+    min-height: 0%;
+    height: 0%;
+    max-height: 0%;
 }
 
 /* Radio-buttons on authentication and registration forms */

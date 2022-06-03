@@ -21,7 +21,14 @@
                 {% for p in products %}
                 <div class="catalog__item">
                     <a href="{{p.get_absolute_url}}">
-                        <img src="{{p.preview.url}}" alt="{{p.title}}" class="catalog__item-preview">
+                        <img src="{{p.preview.url}}" alt="{{p.title}}" id="photo_{{ p.id }}"
+                             class="catalog__item-preview">
+                        <style>
+                            #photo_{{ p.id }}:hover{
+                                content: url("{{p.on_hover.url}}");
+                            }
+
+                        </style>
                     </a>
                     <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
                             class="catalog__item-title">{{p.title}}</p></a>
