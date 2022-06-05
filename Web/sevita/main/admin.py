@@ -11,4 +11,10 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ("title",)}
 
 
+class FavoritesAdmin(admin.ModelAdmin):
+    list_display = ('user', 'obj')
+    search_fields = ('user', 'obj')
+
+
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Favorites)

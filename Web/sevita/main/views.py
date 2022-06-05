@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
@@ -145,9 +146,28 @@ def add_to_favorites(request):
             'id': request.POST.get('id'),
         }
         request.session.modified = True
+
+        # Добавление избранного товара в базу данных
+        if request.user.is_authenticated:
+            send_to_db(request=request, data=data)
+
         return JsonResponse(data)
 
     return redirect(request.POST.get('url_from'))
+
+
+def send_to_db(request, data):
+    if data['type'] == "product":
+        prod = Product.objects.get(id=data['id'])
+        user = auth.get_user(request)
+
+        # Пытаемся получить избранное из таблицы, или создать новую
+        favorite, created = Favorites.objects.get_or_create(user=user, obj_id=prod.pk)
+
+        # Если новый товар не добавлен в избранное, значит, он там уже есть, а значит,
+        # клик по этому товару будем считать запросом на удаление его из избранного
+        if not created:
+            favorite.delete()
 
 
 def remove_from_favorites(request):
@@ -175,6 +195,11 @@ def remove_from_favorites(request):
             'id': request.POST.get('id'),
         }
         request.session.modified = True
+
+        # Удаление избранного товара из базы данных
+        if request.user.is_authenticated:
+            send_to_db(request=request, data=data)
+
         return JsonResponse(data)
 
     return redirect(request.POST.get('url_from'))

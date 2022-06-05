@@ -30,3 +30,16 @@ class Product(models.Model):
         verbose_name = 'Товар'
         verbose_name_plural = 'Каталог'
         ordering = ['-time_create', 'title']
+
+
+class Favorites(models.Model):
+    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
+    obj = models.ForeignKey(Product, verbose_name="Товар", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Парфюм "{self.obj}" в избранном пользователя {self.user}'
+
+    class Meta:
+        db_table = "favorites"
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранные'
