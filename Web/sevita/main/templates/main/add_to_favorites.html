@@ -1,3 +1,5 @@
+{% load main_tags %}
+
 <div class="add__block">
-    <div class="add-to-favorites" data-type="{{ type }}" data-id="{{ id }}"></div>
+    <div class="add-to-favorites {% if prod.favorites_set.all|user_in:user %}added{% endif %}" data-type="{{ type }}" data-id="{{ prod.id }}"></div>
 </div>

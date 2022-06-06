@@ -22,4 +22,12 @@ def cut(products, count):
     return products
 
 
+@register.filter(name='user_in')
+def user_in(objects, user):
+    if user.is_authenticated:
+        return objects.filter(user=user).exists()
+    return False
+
+
 register.filter('cut', cut)
+register.filter('user_in', user_in)
