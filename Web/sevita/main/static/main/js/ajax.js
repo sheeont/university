@@ -99,3 +99,34 @@ $(document).ready(function() {
     add_to_favorites()
     get_session_favorites()
 })
+
+// Содержится ли элемент elem в массиве arr
+function contains(arr, elem) {
+   return arr.indexOf(elem) != -1;
+}
+
+// С интервалом в минуту обновляет данные об избранных товарах
+setInterval(function () {
+    $.ajax({
+        url: "/get_db_changes/",
+        type: 'GET',
+        dataType: 'json',
+
+        success: function (json) {
+            if (json.result && json.is_authenticated) {
+                $('.add-to-favorites').each((index, el) => {
+                    for (let i = 0; i < json.favorite_ids.length; i++) {
+                        const id = $(el).data('id')
+
+                        if (json.favorite_ids[i] == id) {
+                            $(el).addClass(added_to_favorites_class)
+                        }
+                        else if (!contains(json.favorite_ids, $(el).data('id')) && $(el).hasClass(added_to_favorites_class)) {
+                            $(el).removeClass(added_to_favorites_class)
+                        }
+                    }
+                })
+            }
+        }
+    });
+}, 30000);

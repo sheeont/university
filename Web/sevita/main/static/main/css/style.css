@@ -1292,8 +1292,18 @@ a { text-decoration: none; }
     background-size: 40px 40px;
 }
 
+add-to-favorite.disabled {
+    pointer-events: none;
+
+    /* for "disabled" effect */
+    opacity: 0.5;
+    background: #CCC;
+}
+
 .favorite-img {
     max-width: 40px;
     max-height: 40px;
     z-index: 3;
 }
+
+
