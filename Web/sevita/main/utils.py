@@ -14,7 +14,6 @@ class DataMixin:
     def get_user_context(self, **kwargs):
         context = kwargs
         context['header'] = header
-        # context['user_form'] = reg(self.request)
         context['login_form'] = AuthenticationForm()
         context['registration_form'] = UserRegistrationForm()
 
