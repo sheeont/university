@@ -15,4 +15,5 @@ urlpatterns = [
     path('exit/', views.LogoutView.as_view(), name='exit'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('register/', RegisterUser.as_view(), name='register'),
+    path('get_db_changes/', cast_session_to_db, name='get_db_changes')
 ]

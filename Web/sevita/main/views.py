@@ -1,7 +1,9 @@
+import json
+
 from django.contrib import auth
-from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import *
@@ -224,39 +226,73 @@ def sync_data(request):
                 favorites_set = prod.favorites_set.filter(user=request.user)
                 # Добавляем избранные товары в сессию
                 for favorite in favorites_set:
-                    request.session['favorites'].append({"type": model_type, "id": str(favorite.obj_id)})
+                    request.session['favorites'].append({"type": model_type, "id": favorite.obj_id})
 
         # Если избранные есть в сессии и в БД, но они не совпадают
         elif request.session.get('favorites') and Favorites.objects.count():
-            # Инициализируем список id избранных товаров
-            favorites_ids = []
+            # Приводим данные в сессии к данным, хранящимся в БД
+            cast_session_to_db(request)
 
-            # Добавляем в сессию те объекты, которые есть в БД, но их нет в самой сессии
-            for prod in Product.objects.all():
-                # Получаем избранные товары пользователя по очереди
-                favorites_set = prod.favorites_set.filter(user=request.user)
 
-                # Если избранных нет, переходим к следующей итерации
-                if favorites_set:
-                    # Добавляем id текущего избранного товара в список
-                    favorites_ids.append(str(favorites_set[0].obj_id))
+# Обновление данных об избранных товарах на странице
+def cast_session_to_db(request):
+    # Инициализируем список id избранных товаров
+    favorites_ids = []
+    print(request.session['favorites'])
 
-                    # Получаем id всех товаров, которые есть в сессии
-                    all_ids = [item['id'] for item in request.session['favorites']]
+    # Добавляем в сессию те объекты, которые есть в БД, но их нет в самой сессии
+    for prod in Product.objects.all():
+        # Получаем избранные товары пользователя по очереди
+        favorites_set = prod.favorites_set.filter(user=request.user)
 
-                    # Проверяем, существует ли уже такая запись в сессии, если нет, добавляем её.
-                    if str(favorites_set[0].obj_id) not in all_ids:
-                        request.session['favorites'].append({"type": model_type, "id": favorites_set[0].obj_id})
-                        all_ids.append(favorites_set[0].obj_id)
+        # Если избранных нет, переходим к следующей итерации
+        if favorites_set:
+            # Добавляем id текущего избранного товара в список
+            favorites_ids.append(favorites_set[0].obj_id)
+            print(f'favorite_ids {favorites_ids}')
 
-            # По полученному списку id избранных в БД, удаляем из сессии те объекты, которых в этом списке нет
-            for item in request.session['favorites']:
-                if str(item['id']) not in favorites_ids:
-                    item.clear()
+            # Получаем id всех товаров, которые есть в сессии
+            all_ids = [item['id'] for item in request.session['favorites']]
+            print(f'all_ids {all_ids}')
 
-            # После удаления товара, убираем из списка пустой словарь
-            while {} in request.session['favorites']:
-                request.session['favorites'].remove({})
+            # Проверяем, существует ли уже такая запись в сессии, если нет, добавляем её.
+            if favorites_set[0].obj_id not in all_ids:
+                print('fsaffffffffffffffff+_________________________')
+                request.session['favorites'].append({"type": "product", "id": favorites_set[0].obj_id})
+                all_ids.append(favorites_set[0].obj_id)
+
+    # По полученному списку id избранных в БД, удаляем из сессии те объекты, которых в этом списке нет
+    print('Проврка удаления объектов из сессии\n\n')
+    print(favorites_ids)
+    for item in request.session['favorites']:
+        if item['id'] not in favorites_ids:
+            item.clear()
+            print(request.session['favorites'])
+
+    # После удаления товара, убираем из списка пустой словарь
+    while {} in request.session['favorites']:
+        request.session['favorites'].remove({})
+
+    request.session['favorites'] = request.session['favorites']
+    print(request.session['favorites'])
+    # Проверяем, действительно ли данные сессии совпадают с БД
+    result = True
+    # Как только найдётся несовпадение - цикл будет прерван и вернётся False, иначе True
+    for item in request.session['favorites']:
+        if item['id'] not in favorites_ids:
+            result = False
+
+    request.session.modified = True
+
+    # Для AJAX запросов
+    if is_ajax(request):
+        return HttpResponse(
+            json.dumps({
+                "result": result,
+                "favorite_ids": favorites_ids,
+            }),
+            content_type="application/json"
+        )
 
 
 def favorites_api(request):

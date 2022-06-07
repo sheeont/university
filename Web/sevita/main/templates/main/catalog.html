@@ -3,8 +3,8 @@
 {% load main_tags %}
 
 {% block content %}
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="{% static 'main/js/ajax.js'%}"></script>
 
 <section class="catalog">
     <div class="wrapper">
@@ -17,36 +17,8 @@
                 <h1>Каталог товаров</h1>
                 <img src="{% static 'main/img/svg/delimiter-line.svg'%}" alt="delimiter" class="delimiter-line">
             </div>
-            <div class="catalog__wrapper">
-                {% for p in products %}
-                <div class="catalog__item">
-                    <a href="{{p.get_absolute_url}}">
-                        <img src="{{p.preview.url}}" alt="{{p.title}}" id="photo_{{ p.id }}"
-                             class="catalog__item-preview">
-                        <style>
-                            #photo_{{ p.id }}:hover{
-                                content: url("{{p.on_hover.url}}");
-                            }
+            {% include 'main/products_list.html' with products=products %}
 
-                        </style>
-                    </a>
-                    <a href="{{p.get_absolute_url}}" class="catalog__item-title"><p
-                            class="catalog__item-title">{{p.title}}</p></a>
-                    <a href="{{p.get_absolute_url}}" class="catalog__item-price">
-                        {% if p.low_price != "-" %}
-                        <p class="catalog__item-price">от {{p.low_price}} руб.</p>
-                        {% elif p.medium_price != "-" %}
-                        <p class="catalog__item-price">от {{p.medium_price}} руб.</p>
-                        {% else %}
-                        <p class="catalog__item-price">от {{p.high_price}} руб.</p>
-                        {% endif %}
-                    </a>
-
-                    {% include 'main/add_to_favorites.html' with type="product" prod=p %}
-
-                </div>
-                {% endfor %}
-            </div>
             {% if page_obj.has_other_pages %}
             <nav class="list-pages">
                 <ul>
