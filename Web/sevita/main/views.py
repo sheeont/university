@@ -65,6 +65,7 @@ class ShowProduct(DataMixin, DetailView):
 
         return dict(list(context.items()) + list(c_def.items()))
 
+    # Сделать класс представления для этой формы и через {% include %} её подключить
     def get_form(self, request):
         if request.method == 'POST':
             form = FeedBack(request.POST)
