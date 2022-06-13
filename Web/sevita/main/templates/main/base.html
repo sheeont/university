@@ -89,11 +89,15 @@
     <div class="popup__body">
         <div class="popup__content">
             <a href="#header" class="popup__close">X</a>
+            {% if user.is_authenticated %}
+            <h1>Привет, {{request.user.username}}!</h1>
+            {% else %}
             <h1>Вход</h1>
+            {% endif %}
             <div class="wrapper">
                 <div class="popup__form">
                     {% if user.is_authenticated %}
-                    <p class="form_answer">Вы уже авторизированы!</p>
+                    <p class="form_answer" style="text-align: center">Действия:<br><br>Корзина<br><br>Избранное<br></p>
                     <div class="form_btn">
                         <button class="btn new-margin_btn" type="submit"><a href="{% url 'exit' %}">Выход</a></button>
                     </div>

@@ -9,6 +9,7 @@ urlpatterns = [
     path('catalog/', MainCatalog.as_view(), name='catalog'),
     path('payment/', payment, name='payment'),
     path('product/<slug:prod_slug>/', ShowProduct.as_view(), name='product'),
+    # path('product/<slug:prod_slug>/feedback/', ShowProduct.as_view(), 'feedback'),
     path('catalog/add/', login_required(add_to_favorites), name='add'),
     path('catalog/remove/', login_required(remove_from_favorites), name='remove'),
     path('catalog/api/', favorites_api, name='api'),

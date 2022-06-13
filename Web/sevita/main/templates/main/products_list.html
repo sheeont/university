@@ -24,8 +24,6 @@
             {% endif %}
         </a>
 
-        <!--   Подключаем ajax для кнопки 'Избранное'   -->
-        <script src="{% static 'main/js/ajax.js'%}"></script>
         {% include 'main/add_to_favorites.html' with type="product" prod=p %}
 
     </div>

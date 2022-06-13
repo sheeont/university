@@ -17,4 +17,4 @@ class FavoritesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Favorites)
+admin.site.register(Favorites, FavoritesAdmin)
